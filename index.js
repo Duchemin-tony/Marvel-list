@@ -12,6 +12,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
 
-app.get('/', (_, res) => res.render('home'))
+app.get('/', (_, res) =>
+    res.render('home', { title: 'Home', content: 'Le contenu de ma page' })
+)
 
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))
