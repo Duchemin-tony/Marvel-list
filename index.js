@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const fetch = require('node-fetch')
 const { engine } = require('express-handlebars')
-const crypto = require('crypto');
+const bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 5003
 
@@ -15,7 +15,7 @@ let privatekey = "11119f6b85d4961d4407bbb84bffc070"
 const catchErrors = asyncFunction => (...args) => asyncFunction(...args).catch(console.error)
 
 const getAllCharacters = catchErrors(async () => {
-    const res = await fetch('https://gateway.marvel.com:443/v1/public/characters?series=24229&orderBy=name&limit=50?&ts=' + tskey + '&apikey=' + apikey + '&hash=' + privatekey + '')
+    const res = await fetch('https://gateway.marvel.com:443/v1/public/characters?orderBy=name&limit=20?&ts=' + tskey + '&apikey=' + apikey + '&hash=' + privatekey + '')
     //console.log(res)
     const json = await res.json()
     return json
@@ -34,11 +34,17 @@ const getCharacter = catchErrors(async (characterID) => {
 app.use(express.static(path.join(__dirname, 'public')))
 app.engine('.hbs', engine({ extname: '.hbs' }))
 app.set('view engine', '.hbs')
+app.use(bodyParser.urlencoded({ extended: false}))
 
 app.get('/', catchErrors(async (_, res) => {
         const characters = await getAllCharacters()
         res.render('Home', { characters })
 }))
+
+app.post('/search', (req, res) => {
+    const search = req.body.search
+    res.redirect(`/${search}`)
+})
 
 app.get('/notFound', (_, res) => res.render('notFound'))
 

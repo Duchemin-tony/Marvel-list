@@ -10,8 +10,8 @@
   "author": "Tony_codeur",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.1",
     "bootstrap": "^5.3.0-alpha1",
-    "crypto-js": "^4.1.1",
     "express": "^4.18.2",
     "express-handlebars": "^6.0.6",
     "node-fetch": "^2.6.7"
