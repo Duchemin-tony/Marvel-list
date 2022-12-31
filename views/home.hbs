@@ -1,0 +1,7 @@
+<h1>Characters</h1> 
+
+<ol class="characters">
+    {{#each characters.data.results}}
+        <li><a href="/{{this.name}}">{{this.name}}</a></li>
+    {{/each}}
+</ol>
